@@ -1,3 +1,22 @@
+/*
+O intuito desta query é identificar os clientes que realizaram ao menos uma das ações abaixo, em uma janela de 30 dias:
+
+- Clientes que geraram alguma Receita (Selecionamos todos o os usuários que realizaram pelo menos alguma transação que gera receita para o banQi nos últimos 30 dias)
+- Possuí algum Saldo em sua conta (Selecionamos todos o os usuários que possuem saldo > 0, sempre excluindo contas de controle dock e contas de controle banQi. Os dados são sempre do último dia do mês)
+- Possuí algum produto de crédito ativo (Selecionamos todos o os usuários que possuem produto de crédito (empréstimo ou renegociação) ativo e que não estão inadimplentes.O usuário voltará a ficar elegível a esta regra, quando ficar adimplente ou realizar uma nova renegociação)
+- Clientes que efetuaram algum Login no App (Selecionamos todos o os usuários que fizeram login no app do banQi nos últimos 30 dias)
+
+A tabels possuem as seguintes informações: 
+user_id
+safra
+flag saldo em conta
+flag gerou receita
+flag possui crédito
+flag acessou o app
+
+Os usuários são únicos por safra e possuem a marcação das regras das quais fazem parte.
+*/
+
 DELETE FROM sandbox.business_analytics.rps_cliente_ativo WHERE safra = date_trunc('MONTH',(current_date - '1 day'::INTERVAL));
 
 INSERT INTO sandbox.business_analytics.rps_cliente_ativo
